@@ -12,10 +12,12 @@ namespace GeoService.Controllers
     public class GeoPositionController : Controller
     {
         private readonly IGeoPositionDataService _geoPositionDataService;
+        private readonly ILogger<GeoPositionController> _logger;
 
-        public GeoPositionController(IGeoPositionDataService geoPositionDataService)
+        public GeoPositionController(IGeoPositionDataService geoPositionDataService, ILogger<GeoPositionController> logger)
         {
             _geoPositionDataService = geoPositionDataService;
+            _logger = logger;
         }
 
         [HttpGet("/coordinates")]
@@ -28,6 +30,7 @@ namespace GeoService.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Log(LogLevel.Error, $"Request: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
         }
@@ -42,6 +45,7 @@ namespace GeoService.Controllers
             }
             catch (Exception ex)
             {
+                _logger.Log(LogLevel.Error, $"Request: {ex.Message}");
                 return StatusCode(500, ex.Message);
             }
         }
